@@ -31,23 +31,6 @@ import cn.chiichen.cook.R
 
 @Composable
 fun AboutScreen(navController: NavController) {
-//    Box(
-//        modifier = Modifier.fillMaxSize(),
-//        contentAlignment = Alignment.Center
-//    ) {
-//        Column(
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//            verticalArrangement = Arrangement.Center
-//        ) {
-//            Text(text = "Third Page", style = MaterialTheme.typography.h4)
-//            Spacer(modifier = Modifier.height(16.dp))
-//            Button(onClick = {
-//                navController.navigate("favor")
-//            }) {
-//                Text(text = "Go to favor")
-//            }
-//        }
-//    }
     Column(
         modifier = Modifier.padding(12.dp)
     ) {
