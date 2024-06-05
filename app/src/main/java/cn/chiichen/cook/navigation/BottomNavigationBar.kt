@@ -8,9 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Settings
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
@@ -41,7 +41,7 @@ fun BottomNavigationBar(navController: NavController) {
             }
         )
         BottomNavigationItem(
-            icon = { Icon(Icons.Default.Settings, contentDescription = "About") },
+            icon = { Icon(Icons.Default.AccountCircle, contentDescription = "About") },
             label = { Text("About") },
             selected = currentRoute == "about",
             onClick = {
