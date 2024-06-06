@@ -13,7 +13,9 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
     NavHost(navController, startDestination = "home", modifier = modifier) {
         composable("home") { HomeScreen() }
         composable("list") { ListScreen() }
-        composable("about") { AboutScreen() }
+        composable("about") { AboutScreen(navController) }
+        composable("favor"){ FavorPage(navController) }
+        composable("history"){ HistoryPage(navController) }
     }
 }
 
