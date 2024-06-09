@@ -1,5 +1,8 @@
 package cn.chiichen.cook.ui.screens
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,19 +28,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.chiichen.cook.R
+import cn.chiichen.cook.model.RecipeEntry
+import cn.chiichen.cook.utils.stuffToIcon
+import cn.chiichen.cook.utils.toolsToIcon
 
 @Composable
 fun ListScreen() {
+    val context = LocalContext.current
 
-    var recipes: List<String> = mutableListOf()
-
-    recipes = List(20) { "Item #$it" }
+    var recipes: MutableList<RecipeEntry> = mutableListOf(
+        RecipeEntry(
+            "电饭煲版广式腊肠煲饭","腊肠、米","BV1NE411Q7Jj","简单","广式","煲","电饭煲")
+    )
 
     var number by remember { mutableIntStateOf(1) }
 
@@ -98,10 +108,10 @@ fun ListScreen() {
         ) {
             Button(
                     onClick = {
-                        initList(number,recipes)
+                        //initList(number,recipes)
                     }
                 ) {
-                Text(text = "随机一下")
+                Text(text = "随机一下", fontSize = 20.sp)
                 Icon(imageVector = Icons.Filled.Refresh,
                     contentDescription = "")
             }
@@ -115,21 +125,43 @@ fun ListScreen() {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(40.dp),
+                        .height(60.dp),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = item,
-                        fontSize = 20.sp
-                    )
+                    Button(onClick = {
+                        val bilibiliUri = Uri.parse("bilibili://video/${item.bv}")
+                        val webUri = Uri.parse("https://www.bilibili.com/video/${item.bv}")
+
+                        val intent = Intent(Intent.ACTION_VIEW, bilibiliUri)
+
+                        if (intent.resolveActivity(context.packageManager) != null) {
+                            // 应用已安装，启动它
+                            context.startActivity(intent)
+                        } else {
+                            // 应用未安装，跳转到浏览器中的对应链接
+                            val webIntent = Intent(Intent.ACTION_VIEW, webUri)
+                            context.startActivity(webIntent)
+                        }
+                    }) {
+                        Text(text = stuffToIcon(item.stuff) + " " + item.name,
+                            fontSize = 15.sp
+                        )
+                        var tools: List<Int> = toolsToIcon(item.tools)
+                        for (tool in tools) {
+                            Icon(painter = painterResource(id = tool), contentDescription = "", tint = Color.Black)
+                        }
+                    }
                 }
             }
         }
     }
 }
 
-fun initList(number: Int, recipes: List<String>) {
+fun initList(number: Int, recipes: MutableList<RecipeEntry>) {
+    recipes.clear()
     /*TODO: 随机抽number个item并初始化recipes list*/
+
 }
 
 @Composable
