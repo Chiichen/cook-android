@@ -9,6 +9,10 @@ fun stuffToIcon(stuff:String): String {
     val stuffs = stuff.split("、")
     for (s in stuffs) {
         stuffIcons += stuffMap.getValue(s)
+        if (stuffIcons.length > 2) {
+            stuffIcons += "..."
+            break
+        }
     }
     return stuffIcons
 }

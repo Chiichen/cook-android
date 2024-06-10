@@ -1,16 +1,22 @@
 package cn.chiichen.cook.ui.screens
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.DropdownMenu
@@ -38,12 +44,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cn.chiichen.cook.Global
 import cn.chiichen.cook.R
+import cn.chiichen.cook.model.RecipeEntry
+import cn.chiichen.cook.utils.stuffToIcon
+import cn.chiichen.cook.utils.toolsToIcon
 import kotlinx.coroutines.launch
 
 @Composable
@@ -92,15 +104,60 @@ fun HomeScreen() {
 fun AppContent(
     item: String
 ) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+    val context = LocalContext.current
+    val recipes = Global.Recipes
+    println(recipes.size)
+    LazyColumn(
+        contentPadding = PaddingValues(15.dp),
+        modifier = Modifier.fillMaxSize()
     ) {
-        Column {
-            Text(text = "当前模式为 $item")
-            val millis = System.currentTimeMillis()
-            Text(text = "$millis")
+        items(recipes) { item ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Button(onClick = {
+                    val bilibiliUri = Uri.parse("bilibili://video/${item.bv}")
+                    val webUri = Uri.parse("https://www.bilibili.com/video/${item.bv}")
+
+                    val intent = Intent(Intent.ACTION_VIEW, bilibiliUri)
+
+                    if (intent.resolveActivity(context.packageManager) != null) {
+                        // 应用已安装，启动它
+                        context.startActivity(intent)
+                    } else {
+                        // 应用未安装，跳转到浏览器中的对应链接
+                        val webIntent = Intent(Intent.ACTION_VIEW, webUri)
+                        context.startActivity(webIntent)
+                    }
+                }) {
+                    Text(
+                        text = stuffToIcon(item.stuff) + " " + item.name,
+                        fontSize = 14.sp,
+                        modifier = Modifier.weight(1f)
+                    )
+
+                    val tools: List<Int> = toolsToIcon(item.tools)
+                    Row(
+                        modifier = Modifier.weight(tools.size.toFloat() / 10)
+                    ) {
+
+                        for (tool in tools) {
+                            Icon(
+                                painter = painterResource(id = tool),
+                                contentDescription = "",
+                                tint = Color.Black
+                            )
+                        }
+                    }
+
+                }
+            }
         }
+
     }
 }
 
@@ -247,10 +304,17 @@ fun ElementEntry(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = imageVector,
-                contentDescription = contentDescription
-            )
+            if (type != "厨具") Text(text = stuffToIcon(stuff = text))
+            else {
+                val tools = toolsToIcon(tools = text)
+                for (tool in tools) {
+                    Icon(
+                        painter = painterResource(id = tool),
+                        contentDescription = "",
+                        tint = Color.Black
+                    )
+                }
+            }
             Spacer(modifier = Modifier.width(10.dp))
             Text(text = text)
         }
