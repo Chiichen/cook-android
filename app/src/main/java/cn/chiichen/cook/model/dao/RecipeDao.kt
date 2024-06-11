@@ -1,6 +1,5 @@
 package cn.chiichen.cook.model.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -10,12 +9,12 @@ import cn.chiichen.cook.model.entity.Recipe
 @Dao
 interface RecipeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertRecipes(recipe: ArrayList<Recipe>)
+    suspend fun insertRecipe(recipe: Recipe)
 
     @Query("SELECT * From Recipe")
-    fun getAllRecipes(): LiveData<List<Recipe>>
+    fun getAllRecipes(): List<Recipe>
 
     //TODO Deduplication
     @Query("SELECT * FROM Recipe ORDER BY RANDOM() LIMIT :num")
-    fun getRandomRow(num: Int): LiveData<List<Recipe>>
+    fun getRandomRecipe(num: Int): List<Recipe>
 }
