@@ -1,7 +1,6 @@
 package cn.chiichen.cook.ui.screens
 
 import android.content.Intent
-import android.icu.util.Calendar
 import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,7 +22,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -58,7 +56,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.chiichen.cook.Global
 import cn.chiichen.cook.R
-import cn.chiichen.cook.model.RecipeEntry
+import cn.chiichen.cook.model.entity.Recipe
 import cn.chiichen.cook.utils.stuffToIcon
 import cn.chiichen.cook.utils.toolsToIcon
 import kotlinx.coroutines.launch
@@ -97,7 +95,7 @@ fun AppContent(index: Int) {
     val context = LocalContext.current
     val recipes = Global.Recipes
     var showDialog by remember { mutableStateOf(false) }
-    var clickItem by remember { mutableStateOf(RecipeEntry("", "", "", "", "", "", "")) }
+    var clickItem by remember { mutableStateOf(Recipe("", "", "", "", "", "", "")) }
     LazyColumn(
         contentPadding = PaddingValues(15.dp),
         modifier = Modifier.fillMaxSize()
@@ -157,7 +155,7 @@ fun AppContent(index: Int) {
     }
 }
 
-fun addRecord(item: RecipeEntry) {
+fun addRecord(item: Recipe) {
     val time = getTime(Date())
     if (Global.Records.containsKey(time)) Global.Records[time]?.add(item)
     else time?.let { Global.Records.put(it, mutableListOf(item)) }

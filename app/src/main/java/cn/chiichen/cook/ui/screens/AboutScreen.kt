@@ -39,15 +39,13 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import cn.chiichen.cook.Global
 import cn.chiichen.cook.R
-import cn.chiichen.cook.model.RecipeEntry
+import cn.chiichen.cook.model.entity.Recipe
 import cn.chiichen.cook.utils.stuffToIcon
 import cn.chiichen.cook.utils.toolsToIcon
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
-import kotlin.coroutines.cancellation.CancellationException
 
 @Composable
 fun AboutScreen(navController: NavController) {
@@ -161,7 +159,7 @@ fun getTime(input: Date): String? {
 
 
 
-fun skip(context: Context, item: RecipeEntry) {
+fun skip(context: Context, item: Recipe) {
     val bilibiliUri = Uri.parse("bilibili://video/${item.bv}")
     val webUri = Uri.parse("https://www.bilibili.com/video/${item.bv}")
 
@@ -180,7 +178,7 @@ fun skip(context: Context, item: RecipeEntry) {
 @Composable
 fun RecipeEntry(
     context: Context,
-    item: RecipeEntry
+    item: Recipe
 ) {
     Button(
         onClick = { skip(context = context, item = item) }
