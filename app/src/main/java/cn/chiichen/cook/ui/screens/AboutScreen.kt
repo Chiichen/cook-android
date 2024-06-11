@@ -255,13 +255,13 @@ fun RecipeEntry(
 
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
+/*@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 @Preview(showBackground = true)
 fun AboutPreview(){
 
     val navController = rememberNavController()
 //    AboutScreen(navController = navController)
-/*    FavorPage(navController)*/
+*//*    FavorPage(navController)*//*
     HistoryPage(navController = navController)
-}
+}*/
