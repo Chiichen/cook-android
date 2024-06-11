@@ -3,8 +3,6 @@ package cn.chiichen.cook.ui.screens
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,17 +33,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import cn.chiichen.cook.Global
 import cn.chiichen.cook.R
 import cn.chiichen.cook.model.RecipeEntry
 import cn.chiichen.cook.utils.stuffToIcon
 import cn.chiichen.cook.utils.toolsToIcon
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 @Composable
 fun AboutScreen(navController: NavController) {
@@ -178,7 +178,7 @@ fun HistoryPage(navController: NavHostController) {
         ) {
             items(records.entries.toList()) { entry ->
                 Text(
-                    text = "${entry.key}",
+                    text = "${getTime(entry.key.time)}",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Black
                 )
@@ -202,6 +202,14 @@ fun HistoryPage(navController: NavHostController) {
         }
     }
 
+}
+
+fun getTime(input: Date): String? {
+    val inputFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT' yyyy", Locale.US)
+    inputFormat.timeZone = TimeZone.getTimeZone("GMT")
+    val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA)
+    val date = inputFormat.parse(input.toString())
+    return date?.let { outputFormat.format(it) }
 }
 
 

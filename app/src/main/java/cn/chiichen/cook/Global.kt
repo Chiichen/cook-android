@@ -1,9 +1,6 @@
 package cn.chiichen.cook
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import cn.chiichen.cook.model.RecipeEntry
-import java.time.LocalDate
 import java.util.Calendar
 import java.util.TreeMap
 
@@ -27,7 +24,7 @@ object Global {
         "空气炸锅" to R.drawable.ic_airfryer,
         "微波炉" to R.drawable.ic_microwave,
         "电饭煲" to R.drawable.ic_cooker,
-        "锅" to R.drawable.ic_pot,
+        "一口大锅" to R.drawable.ic_pot,
     )
     val Modes: List<String> = listOf("一般模式", "严格模式")
 
@@ -37,7 +34,7 @@ object Global {
         "肉类" to listOf("牛肉", "鸡肉", "猪肉"),
         "蔬菜" to listOf("白菜", "胡萝卜", "番茄", "土豆"),
         "主食" to listOf("米", "面食", "面包"),
-        "厨具" to listOf("锅", "烤箱", "微波炉")
+        "厨具" to listOf("一口大锅", "烤箱", "微波炉", "空气炸锅", "电饭煲")
     )
 
 
@@ -78,7 +75,7 @@ object Global {
             "困难",
             "杂烩",
             "",
-            "锅",
+            "一口大锅",
         ),
         RecipeEntry(
             "清汤锅万能高汤做法（鸡蛋+猪肉）",
@@ -87,16 +84,16 @@ object Global {
             "困难",
             "杂烩",
             "",
-            "锅",
+            "一口大锅",
         )
 
     )
 
     var Records: MutableMap<Calendar, MutableList<RecipeEntry>> =
         TreeMap<Calendar, MutableList<RecipeEntry>>(reverseOrder()).apply {
-            put(Calendar.getInstance().apply { set(2022, Calendar.NOVEMBER, 30) }, Recipes)
-            put(Calendar.getInstance().apply { set(2022, Calendar.DECEMBER, 2) }, Recipes)
-            put(Calendar.getInstance().apply { set(2022, Calendar.DECEMBER, 1) }, Recipes)
+            put(Calendar.getInstance().apply { set(2024, Calendar.JUNE, 11) }, Recipes)
+            put(Calendar.getInstance().apply { set(2024, Calendar.JUNE, 10) }, Recipes)
+            put(Calendar.getInstance().apply { set(2024, Calendar.JUNE, 9) }, Recipes)
         }
 
 }

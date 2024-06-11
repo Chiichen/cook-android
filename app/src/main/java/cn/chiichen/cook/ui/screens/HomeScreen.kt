@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.DropdownMenu
@@ -42,17 +43,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.chiichen.cook.Global
 import cn.chiichen.cook.R
+import cn.chiichen.cook.model.RecipeEntry
 import cn.chiichen.cook.utils.stuffToIcon
 import cn.chiichen.cook.utils.toolsToIcon
 import kotlinx.coroutines.launch
@@ -94,18 +99,18 @@ fun HomeScreen() {
         }
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {
-            if (scaffoldState.drawerState.isClosed) AppContent(item = Global.Modes[index])
+            if (scaffoldState.drawerState.isClosed) AppContent()
         }
     }
 }
 
 @Composable
-fun AppContent(
-    item: String
-) {
+fun AppContent() {
     val context = LocalContext.current
     val recipes = Global.Recipes
-    println(recipes.size)
+    var showDialog by remember { mutableStateOf(false) }
+    var clickItem by remember { mutableStateOf(RecipeEntry("", "", "", "", "", "", "")) }
+
     LazyColumn(
         contentPadding = PaddingValues(15.dp),
         modifier = Modifier.fillMaxSize()
@@ -119,7 +124,9 @@ fun AppContent(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Button(onClick = {
-                    val bilibiliUri = Uri.parse("bilibili://video/${item.bv}")
+                    showDialog = true
+                    clickItem = item
+/*                    val bilibiliUri = Uri.parse("bilibili://video/${item.bv}")
                     val webUri = Uri.parse("https://www.bilibili.com/video/${item.bv}")
 
                     val intent = Intent(Intent.ACTION_VIEW, bilibiliUri)
@@ -131,7 +138,7 @@ fun AppContent(
                         // 应用未安装，跳转到浏览器中的对应链接
                         val webIntent = Intent(Intent.ACTION_VIEW, webUri)
                         context.startActivity(webIntent)
-                    }
+                    }*/
                 }) {
                     Text(
                         text = stuffToIcon(item.stuff) + " " + item.name,
@@ -158,6 +165,42 @@ fun AppContent(
         }
 
     }
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text(text = "确认跳转") },
+            text = {
+                Text(text = buildAnnotatedString {
+                    append("你确定要跳转到 ")
+                    withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
+                        append(clickItem.name)
+                    }
+                    append(" 吗?")
+                })
+/*                Text("你确定要跳转到 ${clickItem.name} 吗?")*/
+            },
+            confirmButton = {
+                Button(onClick = {
+                    showDialog = false
+                    val bilibiliUri = Uri.parse("bilibili://video/${clickItem.bv}")
+                    val webUri = Uri.parse("https://www.bilibili.com/video/${clickItem.bv}")
+
+                    val intent = Intent(Intent.ACTION_VIEW, bilibiliUri)
+
+                    if (intent.resolveActivity(context.packageManager) != null) {
+                        // 应用已安装，启动它
+                        context.startActivity(intent)
+                    } else {
+                        // 应用未安装，跳转到浏览器中的对应链接
+                        val webIntent = Intent(Intent.ACTION_VIEW, webUri)
+                        context.startActivity(webIntent)
+                    }
+                }) { Text("确认") }
+            },
+            dismissButton = { Button(onClick = { showDialog = false }) { Text("取消") } }
+        )
+    }
+
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -176,10 +219,7 @@ fun AppDrawerContent(
         types.forEach { type ->
             Column {
                 Button(
-                    onClick = {
-                        choose = if (choose == type) "" else type
-                        println("button => $choose $type")
-                    },
+                    onClick = { choose = if (choose == type) "" else type },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(10.dp, 5.dp)
@@ -192,28 +232,16 @@ fun AppDrawerContent(
                     ),
                 ) { MenuEntry(type = type, choose = choose) }
 
-                Box(
-                    modifier = Modifier.offset(10.dp)
-                ) {
+                Box(modifier = Modifier.offset(10.dp)) {
                     DropdownMenu(
                         expanded = choose == type,
-                        onDismissRequest = {
-                            println("miss => $choose $type")
-                            choose = ""
-                        },
+                        onDismissRequest = { choose = "" },
                     ) {
                         Global.Data[type]?.forEach {
                             DropdownMenuItem(
                                 modifier = Modifier.width(buttonWidth),
                                 onClick = {},
-                            ) {
-                                ElementEntry(
-                                    imageVector = Icons.Filled.Menu,
-                                    contentDescription = null,
-                                    text = it,
-                                    type = type
-                                )
-                            }
+                            ) { ElementEntry(text = it, type = type) }
                         }
 
                     }
@@ -242,9 +270,7 @@ fun ModeSwitch(
             backgroundColor = if (backgroundColor == lightGreen) Color.LightGray else lightGreen
         },
         colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
-    ) {
-        Text(text = text)
-    }
+    ) { Text(text = text) }
     return index
 }
 
@@ -274,8 +300,6 @@ fun MenuEntry(
 
 @Composable
 fun ElementEntry(
-    imageVector: ImageVector,
-    contentDescription: String?,
     text: String,
     type: String
 ) {
@@ -322,6 +346,8 @@ fun ElementEntry(
     }
 
 }
+
+
 
 
 @Composable
