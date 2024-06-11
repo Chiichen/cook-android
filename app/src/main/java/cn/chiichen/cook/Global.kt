@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import cn.chiichen.cook.model.RecipeEntry
 import java.time.LocalDate
+import java.util.Calendar
 import java.util.TreeMap
 
 object Global {
@@ -91,11 +92,11 @@ object Global {
 
     )
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    var Records: MutableMap<LocalDate, MutableList<RecipeEntry>> = TreeMap<LocalDate, MutableList<RecipeEntry>>(reverseOrder()).apply {
-        put(LocalDate.of(2022, 11, 30), Recipes)
-        put(LocalDate.of(2022, 12, 2), Recipes)
-        put(LocalDate.of(2022, 12, 1), Recipes)
-    }
+    var Records: MutableMap<Calendar, MutableList<RecipeEntry>> =
+        TreeMap<Calendar, MutableList<RecipeEntry>>(reverseOrder()).apply {
+            put(Calendar.getInstance().apply { set(2022, Calendar.NOVEMBER, 30) }, Recipes)
+            put(Calendar.getInstance().apply { set(2022, Calendar.DECEMBER, 2) }, Recipes)
+            put(Calendar.getInstance().apply { set(2022, Calendar.DECEMBER, 1) }, Recipes)
+        }
 
 }

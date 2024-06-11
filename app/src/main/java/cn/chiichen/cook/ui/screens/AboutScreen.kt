@@ -141,7 +141,6 @@ fun FavorPage(navController: NavController){
     /*TODO*/
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HistoryPage(navController: NavHostController) {
 
