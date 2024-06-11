@@ -36,7 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.chiichen.cook.R
-import cn.chiichen.cook.model.RecipeEntry
+import cn.chiichen.cook.model.entity.Recipe
 import cn.chiichen.cook.utils.stuffToIcon
 import cn.chiichen.cook.utils.toolsToIcon
 
@@ -44,8 +44,8 @@ import cn.chiichen.cook.utils.toolsToIcon
 fun ListScreen() {
     val context = LocalContext.current
 
-    var recipes: MutableList<RecipeEntry> = mutableListOf(
-        RecipeEntry(
+    var recipes: MutableList<Recipe> = mutableListOf(
+        Recipe(
             "电饭煲版广式腊肠煲饭","腊肠、米","BV1NE411Q7Jj","简单","广式","煲","电饭煲")
     )
 
@@ -158,7 +158,7 @@ fun ListScreen() {
     }
 }
 
-fun initList(number: Int, recipes: MutableList<RecipeEntry>) {
+fun initList(number: Int, recipes: MutableList<Recipe>) {
     recipes.clear()
     /*TODO: 随机抽number个item并初始化recipes list*/
 
