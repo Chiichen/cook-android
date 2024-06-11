@@ -47,8 +47,6 @@ object Global {
 
 
     // 暂时用作测试
-
-
     var Recipes: MutableList<RecipeEntry> = mutableListOf(
         RecipeEntry(
             "电饭煲版罗宋汤",
@@ -89,11 +87,11 @@ object Global {
 
     )
 
-    var Records: MutableMap<Calendar, MutableList<RecipeEntry>> =
-        TreeMap<Calendar, MutableList<RecipeEntry>>(reverseOrder()).apply {
-            put(Calendar.getInstance().apply { set(2024, Calendar.JUNE, 11) }, Recipes)
-            put(Calendar.getInstance().apply { set(2024, Calendar.JUNE, 10) }, Recipes)
-            put(Calendar.getInstance().apply { set(2024, Calendar.JUNE, 9) }, Recipes)
+    var Records: MutableMap<String, MutableList<RecipeEntry>> =
+        TreeMap<String, MutableList<RecipeEntry>>(reverseOrder()).apply {
+            put("2024-6-11", Recipes)
+            put("2024-6-10", Recipes)
+            put("2024-6-9", Recipes)
         }
 
 }

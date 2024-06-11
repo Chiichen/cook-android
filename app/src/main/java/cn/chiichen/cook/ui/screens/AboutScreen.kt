@@ -43,66 +43,39 @@ import cn.chiichen.cook.model.RecipeEntry
 import cn.chiichen.cook.utils.stuffToIcon
 import cn.chiichen.cook.utils.toolsToIcon
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
+import kotlin.coroutines.cancellation.CancellationException
 
 @Composable
 fun AboutScreen(navController: NavController) {
-    Column(
-        modifier = Modifier.padding(12.dp)
-    ) {
-        Text(text = "我的",
-            fontSize = 40.sp,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
-
+    Column(modifier = Modifier.padding(12.dp)) {
+        Text(text = "我的", fontSize = 40.sp, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.padding(12.dp))
-
         Row (
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
+            modifier = Modifier.fillMaxWidth().padding(10.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ){
             Button(
-                onClick = {
-                    navController.navigate("favor")
-                },
+                onClick = { navController.navigate("favor") },
                 modifier = Modifier.width(100.dp)
             ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(imageVector = Icons.Default.Favorite,
-                        contentDescription = "favor",
-                        modifier = Modifier.size(24.dp)
-                    )
+                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+                    Icon(imageVector = Icons.Default.Favorite, contentDescription = "favor", modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.padding(10.dp))
                     Text(text = "我的收藏")
                 }
-
             }
-
             Spacer(modifier = Modifier.size(60.dp))
-
             Button(
-                onClick = {
-                    navController.navigate("history")
-                },
+                onClick = { navController.navigate("history") },
                 modifier = Modifier.width(100.dp)
             ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(painter = painterResource(id = R.drawable.ic_history),
-                        contentDescription = "history",
-                        modifier = Modifier.size(24.dp)
-                    )
+                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+                    Icon(painter = painterResource(id = R.drawable.ic_history), contentDescription = "history", modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.padding(8.dp))
                     Text(text = "历史记录")
                 }
@@ -143,65 +116,38 @@ fun FavorPage(navController: NavController){
 
 @Composable
 fun HistoryPage(navController: NavHostController) {
-
     val records = Global.Records
     val context = LocalContext.current
-
     Column {
         Row (
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(4.dp),
+            modifier = Modifier.fillMaxWidth().padding(4.dp),
             verticalAlignment = Alignment.CenterVertically
         ){
             IconButton(
-                onClick = {
-                    navController.navigate("about")
-                }
-            ) {
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "back")
-            }
-
+                onClick = { navController.navigate("about") }
+            ) { Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "back") }
             Spacer(modifier = Modifier.weight(0.8f))
-
-            Text(text = "历史记录",
-                fontSize = 20.sp,
-                modifier = Modifier.align(Alignment.CenterVertically)
-            )
-
+            Text(text = "历史记录", fontSize = 20.sp, modifier = Modifier.align(Alignment.CenterVertically))
             Spacer(modifier = Modifier.weight(1f))
         }
-
-        LazyColumn(
-            contentPadding = PaddingValues(15.dp),
-            modifier = Modifier.fillMaxSize()
-        ) {
+        LazyColumn(contentPadding = PaddingValues(15.dp), modifier = Modifier.fillMaxSize()) {
             items(records.entries.toList()) { entry ->
-                Text(
-                    text = "${getTime(entry.key.time)}",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Black
-                )
+                Text(text = entry.key, fontSize = 20.sp, fontWeight = FontWeight.Black)
                 Box(
-                    modifier = Modifier
-                        .drawWithContent {
+                    modifier = Modifier.drawWithContent {
                             drawRect(color = Color.LightGray, size = Size(3.dp.toPx(), size.height))
                             drawContent() },
                 ) {
                     Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(10.dp),
+                        modifier = Modifier.fillMaxWidth().padding(10.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) { for (item in entry.value) RecipeEntry(context = context, item = item) }
                 }
                 Spacer(modifier = Modifier.padding(10.dp))
             }
-
         }
     }
-
 }
 
 fun getTime(input: Date): String? {
@@ -211,6 +157,7 @@ fun getTime(input: Date): String? {
     val date = inputFormat.parse(input.toString())
     return date?.let { outputFormat.format(it) }
 }
+
 
 
 
