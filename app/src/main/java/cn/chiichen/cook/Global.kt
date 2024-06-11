@@ -2,7 +2,7 @@ package cn.chiichen.cook
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import cn.chiichen.cook.model.RecipeEntry
+import cn.chiichen.cook.model.entity.Recipe
 import java.time.LocalDate
 import java.util.Calendar
 import java.util.TreeMap
@@ -52,8 +52,8 @@ object Global {
     // 暂时用作测试
 
 
-    var Recipes: MutableList<RecipeEntry> = mutableListOf(
-        RecipeEntry(
+    var Recipes: MutableList<Recipe> = mutableListOf(
+        Recipe(
             "电饭煲版罗宋汤",
             "牛肉、番茄、洋葱、芹菜、胡萝卜、土豆、包菜、香肠",
             "BV16Q4y1m7nU",
@@ -62,7 +62,7 @@ object Global {
             "煲",
             "电饭煲",
         ),
-        RecipeEntry(
+        Recipe(
             "空气炸锅炸万物",
             "土豆、胡萝卜、花菜、西葫芦、芹菜、洋葱、莴笋、菌菇、茄子、包菜、午餐肉、香肠、鸡肉、猪肉、虾、牛肉、鸡肉、番茄、豆腐、面包",
             "BV1wL411F7Cd",
@@ -71,7 +71,7 @@ object Global {
             "炸",
             "空气炸锅",
         ),
-        RecipeEntry(
+        Recipe(
             "骨头汤火锅锅底做法（全鸡版）",
             "骨头、土豆、胡萝卜、花菜、白萝卜、西葫芦、芹菜、菌菇、豆腐、包菜、白菜、午餐肉、鸡肉、猪肉、虾、牛肉、面食、方便面",
             "BV1bi4y187ro",
@@ -80,7 +80,7 @@ object Global {
             "",
             "锅",
         ),
-        RecipeEntry(
+        Recipe(
             "清汤锅万能高汤做法（鸡蛋+猪肉）",
             "猪肉、鸡蛋、土豆、胡萝卜、花菜、白萝卜、西葫芦、芹菜、菌菇、豆腐、包菜、白菜、午餐肉、鸡肉、虾、牛肉、面食、方便面",
             "BV1zD4y197Us",
@@ -92,8 +92,8 @@ object Global {
 
     )
 
-    var Records: MutableMap<Calendar, MutableList<RecipeEntry>> =
-        TreeMap<Calendar, MutableList<RecipeEntry>>(reverseOrder()).apply {
+    var Records: MutableMap<Calendar, MutableList<Recipe>> =
+        TreeMap<Calendar, MutableList<Recipe>>(reverseOrder()).apply {
             put(Calendar.getInstance().apply { set(2022, Calendar.NOVEMBER, 30) }, Recipes)
             put(Calendar.getInstance().apply { set(2022, Calendar.DECEMBER, 2) }, Recipes)
             put(Calendar.getInstance().apply { set(2022, Calendar.DECEMBER, 1) }, Recipes)

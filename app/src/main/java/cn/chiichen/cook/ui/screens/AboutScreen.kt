@@ -43,7 +43,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import cn.chiichen.cook.Global
 import cn.chiichen.cook.R
-import cn.chiichen.cook.model.RecipeEntry
+import cn.chiichen.cook.model.entity.Recipe
 import cn.chiichen.cook.utils.stuffToIcon
 import cn.chiichen.cook.utils.toolsToIcon
 
@@ -206,7 +206,7 @@ fun HistoryPage(navController: NavHostController) {
 
 
 
-fun skip(context: Context, item: RecipeEntry) {
+fun skip(context: Context, item: Recipe) {
     val bilibiliUri = Uri.parse("bilibili://video/${item.bv}")
     val webUri = Uri.parse("https://www.bilibili.com/video/${item.bv}")
 
@@ -225,7 +225,7 @@ fun skip(context: Context, item: RecipeEntry) {
 @Composable
 fun RecipeEntry(
     context: Context,
-    item: RecipeEntry
+    item: Recipe
 ) {
     Button(
         onClick = { skip(context = context, item = item) }
