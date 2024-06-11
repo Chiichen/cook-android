@@ -1,8 +1,8 @@
 package cn.chiichen.cook.ui.screens
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,8 +24,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.*
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,17 +39,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.chiichen.cook.R
+import cn.chiichen.cook.database.DatabaseManager
 import cn.chiichen.cook.model.entity.Recipe
+import cn.chiichen.cook.repository.RecipeRepository
 import cn.chiichen.cook.utils.stuffToIcon
 import cn.chiichen.cook.utils.toolsToIcon
 
 @Composable
 fun ListScreen() {
     val context = LocalContext.current
+    val db = DatabaseManager.getAppDatabase(context)
+    val recipeDao = db.recipeDao()
+    val recipeRepository = RecipeRepository(context.assets, recipeDao)
+    LaunchedEffect(Unit) {
+        Log.i("ListScreen", "init csv data in list screen")
+        recipeRepository.initCsvData();
+    }
 
     var recipes: MutableList<Recipe> = mutableListOf(
         Recipe(
-            "电饭煲版广式腊肠煲饭","腊肠、米","BV1NE411Q7Jj","简单","广式","煲","电饭煲")
+            "电饭煲版广式腊肠煲饭", "腊肠、米", "BV1NE411Q7Jj", "简单", "广式", "煲", "电饭煲"
+        )
     )
 
     var number by remember { mutableIntStateOf(1) }
@@ -55,7 +68,8 @@ fun ListScreen() {
         modifier = Modifier.padding(12.dp)
     ) {
 
-        Text(text = "今天吃什么",
+        Text(
+            text = "今天吃什么",
             fontSize = 40.sp,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
@@ -70,12 +84,13 @@ fun ListScreen() {
         ) {
             IconButton(
                 onClick = {
-                    if (number > 1){
+                    if (number > 1) {
                         number--
                     }
                 }
             ) {
-                Icon(painter = painterResource(id = R.drawable.ic_remove),
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_remove),
                     contentDescription = "add",
                     modifier = Modifier.size(24.dp)
                 )
@@ -83,7 +98,8 @@ fun ListScreen() {
 
             Spacer(modifier = Modifier.padding(5.dp))
 
-            Text(text = "$number",
+            Text(
+                text = "$number",
                 fontSize = 20.sp
             )
 
@@ -94,9 +110,11 @@ fun ListScreen() {
                     number++
                 }
             ) {
-                Icon(imageVector = Icons.Filled.Add,
+                Icon(
+                    imageVector = Icons.Filled.Add,
                     contentDescription = "add",
-                    modifier = Modifier.size(24.dp) )
+                    modifier = Modifier.size(24.dp)
+                )
             }
         }
 
@@ -107,21 +125,27 @@ fun ListScreen() {
             modifier = Modifier.fillMaxWidth()
         ) {
             Button(
-                    onClick = {
-                        //initList(number,recipes)
+                onClick = {
+                    recipeRepository.getRandomRecipe(number).value?.let { it ->
+                        Log.i("ListScreen", String.format("Random %d recipe", number))
+                        recipes.clear()
+                        recipes.addAll(it)
                     }
-                ) {
+                }
+            ) {
                 Text(text = "随机一下", fontSize = 20.sp)
-                Icon(imageVector = Icons.Filled.Refresh,
-                    contentDescription = "")
+                Icon(
+                    imageVector = Icons.Filled.Refresh,
+                    contentDescription = ""
+                )
             }
         }
 
-        LazyColumn (
+        LazyColumn(
             contentPadding = PaddingValues(15.dp),
             modifier = Modifier.fillMaxSize()
         ) {
-            items(recipes) {item ->
+            items(recipes) { item ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -144,12 +168,17 @@ fun ListScreen() {
                             context.startActivity(webIntent)
                         }
                     }) {
-                        Text(text = stuffToIcon(item.stuff) + " " + item.name,
+                        Text(
+                            text = stuffToIcon(item.stuff) + " " + item.name,
                             fontSize = 15.sp
                         )
                         var tools: List<Int> = toolsToIcon(item.tools)
                         for (tool in tools) {
-                            Icon(painter = painterResource(id = tool), contentDescription = "", tint = Color.Black)
+                            Icon(
+                                painter = painterResource(id = tool),
+                                contentDescription = "",
+                                tint = Color.Black
+                            )
                         }
                     }
                 }
@@ -158,14 +187,8 @@ fun ListScreen() {
     }
 }
 
-fun initList(number: Int, recipes: MutableList<Recipe>) {
-    recipes.clear()
-    /*TODO: 随机抽number个item并初始化recipes list*/
-
-}
-
 @Composable
 @Preview(showBackground = true)
-fun ListPreview(){
+fun ListPreview() {
     ListScreen()
 }

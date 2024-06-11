@@ -15,4 +15,6 @@ data class Recipe(
     @CsvBindByName val tags: String,
     @CsvBindByName val methods: String,
     @CsvBindByName val tools: String
-);
+) {
+    constructor() : this("", "", "", "", "", "", "")
+};

@@ -1,7 +1,11 @@
 package cn.chiichen.cook.utils
 
+import android.content.res.AssetManager
+import android.content.res.AssetManager.AssetInputStream
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import com.opencsv.bean.CsvToBean
 import com.opencsv.bean.CsvToBeanBuilder
 import com.opencsv.bean.HeaderColumnNameMappingStrategy
@@ -12,16 +16,13 @@ import java.nio.file.Path
 import java.nio.file.Paths
 
 
-class CsvReader {
+object CsvReader {
+
     @RequiresApi(Build.VERSION_CODES.O)
     @Throws(IOException::class)
-    inline fun <reified T>readCsv(fileName:String):ArrayList<T> {
-        val myPath: Path = Paths.get(fileName)
+    inline fun <reified T> readCsvFromAsset(assetReader: AssetManager,fileName: String): ArrayList<T> {
         var ret: ArrayList<T>
-        Files.newBufferedReader(
-            myPath,
-            StandardCharsets.UTF_8
-        ).use { br ->
+        assetReader.open(fileName).reader(StandardCharsets.UTF_8).use { br ->
             val strategy
                     : HeaderColumnNameMappingStrategy<T?> =
                 HeaderColumnNameMappingStrategy<T?>()

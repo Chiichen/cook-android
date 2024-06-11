@@ -12,6 +12,10 @@ interface RecipeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRecipes(recipe: ArrayList<Recipe>)
 
-    @Query("SELECT * FROM Recipe")
+    @Query("SELECT * From Recipe")
     fun getAllRecipes(): LiveData<List<Recipe>>
+
+    //TODO Deduplication
+    @Query("SELECT * FROM Recipe ORDER BY RANDOM() LIMIT :num")
+    fun getRandomRow(num: Int): LiveData<List<Recipe>>
 }
