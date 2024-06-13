@@ -5,10 +5,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import cn.chiichen.cook.ui.screens.AboutScreen
-import cn.chiichen.cook.ui.screens.FavorPage
-import cn.chiichen.cook.ui.screens.HistoryPage
-import cn.chiichen.cook.ui.screens.HomeScreen
+import cn.chiichen.cook.ui.screens.About.AboutScreen
+import cn.chiichen.cook.ui.screens.About.FavorPage
+import cn.chiichen.cook.ui.screens.About.HistoryPage
+import cn.chiichen.cook.ui.screens.Home.HomeScreen
 import cn.chiichen.cook.ui.screens.List.ListScreen
 
 
