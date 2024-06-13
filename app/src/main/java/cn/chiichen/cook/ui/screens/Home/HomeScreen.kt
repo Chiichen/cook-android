@@ -231,6 +231,7 @@ fun ModeSwitch(homeModel: HomeViewModel) {
         onClick = {
             homeModel.mode.value = (homeModel.mode.value + 1) % 2
             backgroundColor = if (backgroundColor == lightGreen) Color.LightGray else lightGreen
+            homeModel.getMatchRecipes()
         },
         colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
     ) {
@@ -279,6 +280,7 @@ fun ElementEntry(text: String, type: String, homeModel: HomeViewModel) {
         onClick = {
             backgroundColor = if (backgroundColor == lightGreen) Color.White else lightGreen
             update(type = type, element = text, homeModel = homeModel)
+            homeModel.getMatchRecipes()
         }
     ) {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {

@@ -2,7 +2,6 @@ package cn.chiichen.cook.ui.screens.List
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,7 +23,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,11 +46,6 @@ fun ListScreen() {
     val recipeDao = db.recipeDao()
     val recipeRepository = RecipeRepository(context.assets, recipeDao)
     val listModel = remember { ListViewModel(recipeRepository) }
-    LaunchedEffect(Unit) {
-        Log.i("ListScreen", "init csv data in list screen")
-        recipeRepository.initCsvData();
-    }
-
     Column(
         modifier = Modifier.padding(12.dp)
     ) {

@@ -2,11 +2,12 @@ package cn.chiichen.cook.model.entity
 
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.opencsv.bean.CsvBindByName
 
 
-@Entity
+@Entity(indices = [Index(value = ["tools", "stuff"], unique = false)])
 data class Recipe(
     @CsvBindByName @PrimaryKey val name: String,
     @CsvBindByName val stuff: String,
