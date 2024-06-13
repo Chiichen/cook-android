@@ -1,4 +1,4 @@
-package cn.chiichen.cook.ui.screens
+package cn.chiichen.cook.ui.screens.About
 
 import android.content.Context
 import android.content.Intent
@@ -24,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
@@ -37,9 +38,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import cn.chiichen.cook.Global
 import cn.chiichen.cook.R
+import cn.chiichen.cook.database.DatabaseManager
 import cn.chiichen.cook.model.entity.Recipe
+import cn.chiichen.cook.repository.RecipeRepository
 import cn.chiichen.cook.utils.stuffToIcon
 import cn.chiichen.cook.utils.toolsToIcon
 import java.text.SimpleDateFormat
@@ -49,6 +51,7 @@ import java.util.TimeZone
 
 @Composable
 fun AboutScreen(navController: NavController) {
+
     Column(modifier = Modifier.padding(12.dp)) {
         Text(text = "我的", fontSize = 40.sp, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.padding(12.dp))
@@ -114,8 +117,14 @@ fun FavorPage(navController: NavController){
 
 @Composable
 fun HistoryPage(navController: NavHostController) {
-    val records = Global.Records
     val context = LocalContext.current
+    val db = DatabaseManager.getAppDatabase(context)
+    val recipeDao = db.recipeDao()
+    val recipeRepository = RecipeRepository(context.assets, recipeDao)
+    val aboutModel = remember { AboutViewModel(recipeRepository) }
+
+    aboutModel.getRecords()
+
     Column {
         Row (
             modifier = Modifier.fillMaxWidth().padding(4.dp),
@@ -129,7 +138,7 @@ fun HistoryPage(navController: NavHostController) {
             Spacer(modifier = Modifier.weight(1f))
         }
         LazyColumn(contentPadding = PaddingValues(15.dp), modifier = Modifier.fillMaxSize()) {
-            items(records.entries.toList()) { entry ->
+            items(aboutModel.records.value.entries.toList()) { entry ->
                 Text(text = entry.key, fontSize = 20.sp, fontWeight = FontWeight.Black)
                 Box(
                     modifier = Modifier.drawWithContent {

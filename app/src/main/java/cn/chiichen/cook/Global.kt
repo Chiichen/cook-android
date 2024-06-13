@@ -1,9 +1,6 @@
 package cn.chiichen.cook
 
 
-import cn.chiichen.cook.model.entity.Recipe
-import java.util.TreeMap
-
 object Global {
 
     var stuffMap: Map<String, String> = mutableMapOf(
@@ -31,67 +28,10 @@ object Global {
     val EntryTypes: List<String> = listOf("肉类", "蔬菜", "主食", "厨具")
 
     val Data: Map<String, List<String>> = mapOf(
-        "肉类" to listOf("牛肉", "鸡肉", "猪肉"),
-        "蔬菜" to listOf("白菜", "胡萝卜", "番茄", "土豆"),
-        "主食" to listOf("米", "面食", "面包"),
+        "肉类" to listOf("午餐肉", "香肠", "腊肠", "鸡肉", "猪肉", "鸡蛋", "虾", "牛肉", "骨头", "鱼（Todo）"),
+        "蔬菜" to listOf("土豆", "胡萝卜", "花菜", "白萝卜", "西葫芦", "番茄", "芹菜", "黄瓜", "洋葱", "莴笋", "菌菇", "茄子", "豆腐", "包菜", "白菜"),
+        "主食" to listOf("面食", "面包", "米", "方便面"),
         "厨具" to listOf("一口大锅", "烤箱", "微波炉", "空气炸锅", "电饭煲")
     )
-
-
-    val Choice: MutableMap<String, MutableSet<String>> = mutableMapOf(
-        "肉类" to mutableSetOf(),
-        "蔬菜" to mutableSetOf(),
-        "主食" to mutableSetOf(),
-        "厨具" to mutableSetOf()
-    )
-
-
-    // 暂时用作测试
-    var Recipes: MutableList<Recipe> = mutableListOf(
-        Recipe(
-            "电饭煲版罗宋汤",
-            "牛肉、番茄、洋葱、芹菜、胡萝卜、土豆、包菜、香肠",
-            "BV16Q4y1m7nU",
-            "简单",
-            "杂烩",
-            "煲",
-            "电饭煲",
-        ),
-        Recipe(
-            "空气炸锅炸万物",
-            "土豆、胡萝卜、花菜、西葫芦、芹菜、洋葱、莴笋、菌菇、茄子、包菜、午餐肉、香肠、鸡肉、猪肉、虾、牛肉、鸡肉、番茄、豆腐、面包",
-            "BV1wL411F7Cd",
-            "简单",
-            "杂烩",
-            "炸",
-            "空气炸锅",
-        ),
-        Recipe(
-            "骨头汤火锅锅底做法（全鸡版）",
-            "骨头、土豆、胡萝卜、花菜、白萝卜、西葫芦、芹菜、菌菇、豆腐、包菜、白菜、午餐肉、鸡肉、猪肉、虾、牛肉、面食、方便面",
-            "BV1bi4y187ro",
-            "困难",
-            "杂烩",
-            "",
-            "一口大锅",
-        ),
-        Recipe(
-            "清汤锅万能高汤做法（鸡蛋+猪肉）",
-            "猪肉、鸡蛋、土豆、胡萝卜、花菜、白萝卜、西葫芦、芹菜、菌菇、豆腐、包菜、白菜、午餐肉、鸡肉、虾、牛肉、面食、方便面",
-            "BV1zD4y197Us",
-            "困难",
-            "杂烩",
-            "",
-            "一口大锅",
-        )
-
-    )
-
-    var Records: MutableMap<String, MutableList<Recipe>> =
-        TreeMap<String, MutableList<Recipe>>(reverseOrder()).apply {
-            put("2024-6-11", Recipes)
-            put("2024-6-10", Recipes)
-            put("2024-6-9", Recipes)
-        }
 
 }
