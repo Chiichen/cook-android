@@ -38,12 +38,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import cn.chiichen.cook.Global
 import cn.chiichen.cook.R
 import cn.chiichen.cook.database.DatabaseManager
 import cn.chiichen.cook.model.entity.Recipe
 import cn.chiichen.cook.repository.RecipeRepository
-import cn.chiichen.cook.ui.screens.List.ListViewModel
 import cn.chiichen.cook.utils.stuffToIcon
 import cn.chiichen.cook.utils.toolsToIcon
 import java.text.SimpleDateFormat

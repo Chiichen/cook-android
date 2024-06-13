@@ -1,7 +1,5 @@
 package cn.chiichen.cook.ui.screens.Home
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +32,6 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -57,12 +54,9 @@ import androidx.compose.ui.unit.sp
 import cn.chiichen.cook.Global
 import cn.chiichen.cook.R
 import cn.chiichen.cook.database.DatabaseManager
-import cn.chiichen.cook.model.entity.Recipe
 import cn.chiichen.cook.repository.RecipeRepository
-import cn.chiichen.cook.ui.screens.About.AboutViewModel
 import cn.chiichen.cook.ui.screens.About.getTime
 import cn.chiichen.cook.ui.screens.About.skip
-import cn.chiichen.cook.ui.screens.List.ListViewModel
 import cn.chiichen.cook.utils.stuffToIcon
 import cn.chiichen.cook.utils.toolsToIcon
 import kotlinx.coroutines.launch
